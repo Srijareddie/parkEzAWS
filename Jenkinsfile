@@ -6,6 +6,11 @@ pipeline {
         nodejs 'node'  // 'node' is the name you gave to the Node.js installation in Jenkins
     }
 
+    environment {
+        // Limit Node.js to use only 512MB of RAM
+        NODE_OPTIONS = '--max-old-space-size=512'
+    }
+
     stages {
         stage('Checkout') {
             steps {
@@ -25,12 +30,12 @@ pipeline {
         }
     }
 
-post {
-    success {
-        echo 'Build was successful!'
+    post {
+        success {
+            echo 'Build was successful!'
+        }
+        failure {
+            echo 'Build failed.'
+        }
     }
-    failure {
-        echo 'Build failed.'
-    }
-}
 }
