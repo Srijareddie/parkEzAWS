@@ -17,9 +17,13 @@ pipeline {
         stage('Install and Build') {
             steps {
                 dir('frontend') {  // Change directory to 'frontend'
-                    // Install dependencies and build
+                    // Install dependencies
                     sh 'npm install'
-                    sh 'npm run build'
+                    // Unset CI environment variable and build
+                    sh '''
+                        unset CI
+                        npm run build
+                    '''
                 }
             }
         }
