@@ -1,14 +1,9 @@
 pipeline {
-    agent any 
+    agent { label 'PowerfulServer' }  // Use the agent with label 'PowerfulServer'
 
     tools {
         // This assumes you've configured NodeJS installations in Jenkins global tools configuration
         nodejs 'node'  // 'node' is the name you gave to the Node.js installation in Jenkins
-    }
-
-    environment {
-        // Limit Node.js to use only 512MB of RAM
-        NODE_OPTIONS = '--max-old-space-size=512'
     }
 
     stages {
