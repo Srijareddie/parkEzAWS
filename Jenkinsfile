@@ -25,18 +25,11 @@ pipeline {
         }
     }
 
-    post {
-        always {
-            // This step will always run, even if the build fails
-            // Useful for cleanup operations
-        }
-        success {
-            // This step will only run if the build was successful
-            echo 'Build was successful!'
-        }
-        failure {
-            // This step will only run if the build failed
-            echo 'Build failed.'
-        }
+post {
+    success {
+        echo 'Build was successful!'
+    }
+    failure {
+        echo 'Build failed.'
     }
 }
