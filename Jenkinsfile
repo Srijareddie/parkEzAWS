@@ -1,15 +1,13 @@
 pipeline {
-    agent { label 'PowerfulServer' }  // Use the agent with label 'PowerfulServer'
+    agent any  // This will use any available agent
 
     tools {
-        // This assumes you've configured NodeJS installations in Jenkins global tools configuration
         nodejs 'node'  // 'node' is the name you gave to the Node.js installation in Jenkins
     }
 
     stages {
         stage('Checkout') {
             steps {
-                // This checks out your code from the specified repository
                 checkout scm
             }
         }
@@ -17,9 +15,7 @@ pipeline {
         stage('Install and Build') {
             steps {
                 dir('frontend') {  // Change directory to 'frontend'
-                    // Install dependencies
                     sh 'npm install'
-                    // Unset CI environment variable and build
                     sh '''
                         unset CI
                         npm run build
@@ -27,14 +23,20 @@ pipeline {
                 }
             }
         }
+
+        stage('Deploy') {
+            steps {
+                sh 'cp -r frontend/build/* /home/tom/web/dev.gruevy.com/'
+            }
+        }
     }
 
     post {
         success {
-            echo 'Build was successful!'
+            echo 'Build and deployment were successful!'
         }
         failure {
-            echo 'Build failed.'
+            echo 'Build or deployment failed.'
         }
     }
 }
