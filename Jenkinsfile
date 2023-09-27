@@ -12,7 +12,7 @@ pipeline {
             }
         }
 
-        stage('Install and Build') {
+        stage('Install and Build Frontend') {
             steps {
                 dir('frontend') {  // Change directory to 'frontend'
                     sh 'npm install'
@@ -24,9 +24,15 @@ pipeline {
             }
         }
 
-        stage('Deploy') {
+        stage('Deploy Frontend') {
             steps {
                 sh 'cp -r frontend/build/* /home/tom/web/dev.gruevy.com/'
+            }
+        }
+
+        stage('Deploy Backend') {
+            steps {
+                sh 'cp -r backend/* /home/tom/web/backend_dev/'
             }
         }
     }
