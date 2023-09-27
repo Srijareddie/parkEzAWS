@@ -30,6 +30,29 @@ pipeline {
             }
         }
 
+        stage('Setup Backend Virtual Environment') {
+            steps {
+                dir('/home/tom/web/backend_dev/') {
+                    sh '''
+                        if [ ! -d "venv" ]; then
+                            python3 -m venv venv
+                        fi
+                    '''
+                }
+            }
+        }
+
+        stage('Install Backend Dependencies') {
+            steps {
+                dir('/home/tom/web/backend_dev/') {
+                    sh '''
+                        source venv/bin/activate
+                        pip install -r requirements.txt
+                    '''
+                }
+            }
+        }
+
         stage('Deploy Backend') {
             steps {
                 sh 'cp -r backend/* /home/tom/web/backend_dev/'
