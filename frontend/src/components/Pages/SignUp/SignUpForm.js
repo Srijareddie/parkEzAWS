@@ -2,19 +2,21 @@ import styled from "styled-components"
 import { Card, InputWrapper } from "../../Global.styled";
 import { useForm } from "react-hook-form";
 import ImageBlock from "../../Reusable components/ImageBlock";
-import {NavLink, useLocation} from 'react-router-dom';
 import { toast } from "react-toastify";
 import axios from "axios"
 import { useState } from "react";
 import { useEffect } from "react";
-const SignUpForm = () => {
+import {NavLink, useLocation, useNavigate} from 'react-router-dom';
 
+const SignUpForm = () => {
+    const navigate = useNavigate();
     const [currentUser, setcurrentUser] = useState(null);
     const { register, handleSubmit,control, formState: { errors } } = useForm();
     const location = useLocation()
     useEffect(() => {
-        setcurrentUser(location.pathname.split("/").pop())
-    }, [currentUser]);
+        setcurrentUser(location.pathname)
+    }, [location.pathname]);
+    
 
     const onSubmit = data => {
         const {email, name, contact_no: phone_no, address, password, confirm_password} = data
@@ -35,10 +37,28 @@ const SignUpForm = () => {
 
         axios.post('http://127.0.0.1:8000/business/create', data_dict)
         .then(res => {
-            toast.success('Business registered Successfully!🚀')
+            let navigatePath;
+            let whatCreated  = '';
+            if (currentUser === '/sign-up/advertisers/') {
+                navigatePath = '/login/advertisers';
+                whatCreated = 'Advertisers account created';
+            } else if (currentUser === '/sign-up/business/') {
+                navigatePath = '/login/business';
+                whatCreated = 'Lot monitoring account created';
+            } else {
+                navigatePath = '/login'; 
+            }
+            console.log(navigatePath);
+            toast.success(whatCreated + '!🚀', {
+                onClose: () => navigate(navigatePath)
+            });
         })
-        .catch(err => toast.error(err.response.data.detail))
-        console.log(data)
+        .catch(err => {
+            const errorMessage = err.response && err.response.data && err.response.data.detail ? 
+                err.response.data.detail : 
+                "An error occurred while processing your request.";
+            toast.error(errorMessage);
+        })
     };
     
 

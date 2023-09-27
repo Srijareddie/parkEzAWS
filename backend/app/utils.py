@@ -9,7 +9,7 @@ def create_user_auth(user: UserCreate, db: Session):
     user_dict = user_query.create_user(username=user.username, password=hashed_password, db= db)
     return user_dict
 
-def user_exits(table, column, check_value, exception, db: Session):
+def user_exists(table, column, check_value, exception, db: Session):
     user = db.query(table).filter(column == check_value).first()
     if user:
         raise exception

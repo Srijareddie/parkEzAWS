@@ -1,9 +1,7 @@
-from sqlalchemy import Column, String, Integer, Boolean, DateTime, ForeignKey, Enum, Date, UniqueConstraint
+from sqlalchemy import Column, String, Integer, Boolean, DateTime, ForeignKey, UniqueConstraint
 from sqlalchemy.orm import relationship
 from datetime import datetime
 from app.database.database import Base
-import enum
-
 
 
 class Users(Base):
@@ -39,20 +37,16 @@ class EmployeeDepartment(Base):
     department = relationship("Department", primaryjoin="Department.id == EmployeeDepartment.department_id")
     UniqueConstraint( employee_id, department_id)
     
-class TypesOfBusiness(enum.Enum):
-    ADVERTISERS = "ADVERTISERS"
-    BUSINESS = "BUSINESS"
-        
 class Business(Base):
     __tablename__ = "business"
     id = Column(Integer, primary_key=True, index=True)
     email = Column(String, ForeignKey("users.username"), unique=True)
-    name = Column(String, unique=True)
+    name = Column(String)
+    type = Column(String)
     address = Column(String)
     phone_no = Column(String, unique=True, index=True)
     date_joined = Column(DateTime, default=datetime.utcnow())
     is_active = Column(Boolean, default=True)
-    type = Column(Enum(TypesOfBusiness))
     business_user = relationship("Users", primaryjoin="Users.username == Business.email")
     user = relationship("ExternalUsers", back_populates="business")
 

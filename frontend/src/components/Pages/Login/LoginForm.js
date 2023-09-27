@@ -2,7 +2,8 @@ import styled from "styled-components";
 import {Card, InputWrapper} from '../../Global.styled'
 import ImageBlock from "../../Reusable components/ImageBlock";
 import { useForm } from "react-hook-form";
-import {NavLink, useLocation} from 'react-router-dom';
+import {NavLink, useLocation, useNavigate} from 'react-router-dom';
+
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import axios from "axios"
@@ -11,22 +12,31 @@ const LoginForm = () => {
     
 
     const location = useLocation()
-    
+    const navigate = useNavigate();
     const currentUser = location.pathname.split("/").pop()
     
 
     const { register, handleSubmit, formState: {errors} } = useForm({defaultValues: {}});
     const loginSubmit = data => {
-        const {Email: username, Password: password} = data
-        data = {username, password, user_type: currentUser.toUpperCase()}
-        console.log(data)
-        
-        axios.post("http://127.0.0.1:8000/auth/login", data
-        ).then((res) => {
-            toast.success('Logged in successfully')
+        const { Email: username, Password: password } = data;
+        let toAdd = "";
+        if (currentUser === 'advertisers') {
+            toAdd = 'advertiser';
+        }
+        if (currentUser === 'business') {
+            toAdd = 'business';
+        }
+        data = { username, password, user_type: toAdd };
+        console.log(data);
+    
+        axios.post("http://127.0.0.1:8000/auth/login", data).then((res) => {
+            const fetchedToken = res.data.access_token;
+            localStorage.setItem('jwt', fetchedToken);
+            toast.success('Logged in successfully');
+            navigate('/dashboard');
         }).catch((err) => {
-            toast.error(err.response.data.detail)
-        })
+            toast.error(err.response.data.detail);
+        });
     }
     const formInputs = [
         {

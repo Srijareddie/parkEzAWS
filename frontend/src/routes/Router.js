@@ -12,6 +12,7 @@ const Router = () => {
             <Route path="/about" element={<Pages.About/>} />
             <Route path="/contact" element={<Pages.Contact/>} />
             <Route path="/faq" element={<Pages.FAQ/>} />
+            <Route path="/dashboard" element={<Pages.Dashboard/>} />
             <Route path="/login">
                 {logins.map((login, idx) => (
                     <Route path={login} key={`login-${idx}`} element={<Pages.Login/>} />

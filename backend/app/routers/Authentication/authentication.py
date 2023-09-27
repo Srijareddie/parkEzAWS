@@ -51,7 +51,8 @@ async def create_user(user: Users.UserCreate, db: Session = Depends(get_db)):
 async def login(form_data: Auth.LoginForm, db: Session = Depends(get_db)):
     print("form_data:", form_data)
     print("db:", db)
-    user = authenticate_user(username=form_data.username, password=form_data.password,user_type=form_data.user_type.value, db=db)
+    
+    user = authenticate_user(username=form_data.username, password=form_data.password, user_type=form_data.user_type, db=db)
     
     if not user:
         raise HTTPException(
@@ -62,15 +63,19 @@ async def login(form_data: Auth.LoginForm, db: Session = Depends(get_db)):
     access_token_expires = timedelta(minutes=config.ACCESS_TOKEN_EXPIRE_MINUTES)
     access_token = create_access_token(
         data={"sub": user.username},
-        expires_delta= access_token_expires
+        expires_delta=access_token_expires
     )
+    print(access_token)
 
-    user = jsonable_encoder(user)
-    del user['password']
-    response = JSONResponse(content=user)
+    user_data = jsonable_encoder(user)
+    del user_data['password']
     
+    # Add the access_token to the user data dictionary
+    user_data["access_token"] = access_token
     
-    response.set_cookie(key="access_token", value= access_token, httponly=True)
+    response = JSONResponse(content=user_data)
+    response.set_cookie(key="access_token", value=access_token, httponly=True)
+    
     return response
 
 @router.post("/logout")

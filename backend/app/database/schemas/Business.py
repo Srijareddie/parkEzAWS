@@ -1,22 +1,15 @@
 from pydantic import BaseModel
-from enum import Enum
 from datetime import datetime
-
-class BusinessType(str, Enum):
-    ADVERTISERS = "ADVERTISERS"
-    BUSINESS = "BUSINESS"
 
 class BusinessBase(BaseModel):
     email: str
     name: str
     phone_no: str
     address: str
-    type: BusinessType | str
+    type: str
     
 class BusinessCreate(BusinessBase):
     password: str
-    
-
     
 class Business(BusinessBase):
     id: int
