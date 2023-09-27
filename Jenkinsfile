@@ -30,17 +30,6 @@ pipeline {
             }
         }
 
-        stage('Install Backend Dependencies') {
-            steps {
-                dir('/home/tom/web/backend_dev/') {
-                    sh '''
-                        source venv/bin/activate
-                        pip install -r requirements.txt
-                    '''
-                }
-            }
-        }
-
         stage('Deploy Backend') {
             steps {
                 sh 'cp -r backend/* /home/tom/web/backend_dev/'
