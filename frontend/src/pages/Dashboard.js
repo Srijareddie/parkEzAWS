@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+const API_URL = process.env.REACT_APP_API_URL;
 
 // Set up Axios interceptor to automatically include JWT in the Authorization header for all requests
 axios.interceptors.request.use((config) => {
@@ -21,7 +22,7 @@ const Dashboard = () => {
         setJwt(token);
         
         // No need to manually set headers here since it's done by the interceptor
-        axios.get("http://127.0.0.1:8000/business/get_user_data/")
+        axios.get(API_URL + "business/get_user_data/")
         .then(response => {
             console.log(response);
             setUserData(response.data);

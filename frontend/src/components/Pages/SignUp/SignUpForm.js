@@ -7,6 +7,7 @@ import axios from "axios"
 import { useState } from "react";
 import { useEffect } from "react";
 import {NavLink, useLocation, useNavigate} from 'react-router-dom';
+const API_URL = process.env.REACT_APP_API_URL;
 
 const SignUpForm = () => {
     const navigate = useNavigate();
@@ -35,7 +36,7 @@ const SignUpForm = () => {
             return
         }
 
-        axios.post('http://127.0.0.1:8000/business/create', data_dict)
+        axios.post(API_URL + 'business/create', data_dict)
         .then(res => {
             let navigatePath;
             let whatCreated  = '';
