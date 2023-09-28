@@ -45,4 +45,10 @@ pipeline {
             echo 'Build or deployment failed.'
         }
     }
+    stage('Restart Service') {
+    steps {
+        sh 'sudo systemctl restart devback.service'
+    }
+}
+
 }

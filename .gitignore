@@ -1,5 +1,5 @@
+**/__pycache__/
 /backend/venv/
-
 .DS_Store
-
 .env
+backend/app/routers/Business/business.py
