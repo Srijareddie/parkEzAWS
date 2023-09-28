@@ -75,7 +75,7 @@ async def get_user_data(current_user: Models.Users = Depends(get_current_user), 
         # Convert to dictionary and remove sensitive info
         user_data_dict = business_data.__dict__
         user_data_dict.pop('password', None)
-        user_data_dict['Jeknins sudo2'] = 'upload update test'
+        user_data_dict['Jeknins sudo2'] = 'ZOOM TEST'
         return user_data_dict
 
 
