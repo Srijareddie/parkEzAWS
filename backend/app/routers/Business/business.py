@@ -63,7 +63,6 @@ async def create_external_users(user_data: ExternalUserIn, business: str = Depen
 
 @router.get("/get_user_data/")
 async def get_user_data(current_user: Models.Users = Depends(get_current_user), db: Session = Depends(get_db)):
-    print('gets this farr!!!!')
     basic_data_dict = {}
     # Fetch user data from Users table
     user_data = db.query(Models.Users).filter(Models.Users.username == current_user.username).first()
@@ -76,6 +75,7 @@ async def get_user_data(current_user: Models.Users = Depends(get_current_user), 
         # Convert to dictionary and remove sensitive info
         user_data_dict = business_data.__dict__
         user_data_dict.pop('password', None)
+        user_data_dict['Upload test'] = 'upload update test'
         return user_data_dict
 
 
