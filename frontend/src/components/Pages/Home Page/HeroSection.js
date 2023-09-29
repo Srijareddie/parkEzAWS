@@ -6,7 +6,7 @@ const HeroSection = () => {
     return(
         <Section image={require("../../../assets/images/Home Page/Home-Hero-Section.png")}>
             <div>
-                <h1>Automated Parking Lot Management Made Easy (QA)</h1>
+                <h1>Automated Parking Lot Management Made Easy (QA - updated)</h1>
                 <p>
                     Increase revenue for your business by using AI to find customers parking spaces and catch and tow non-patron overparkers illegally using your parking lot.
 
