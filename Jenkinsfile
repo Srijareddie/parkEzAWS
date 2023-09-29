@@ -11,36 +11,18 @@ pipeline {
                 checkout scm
             }
         }
-
-        stage('Install and Build Frontend') {
-            steps {
-                dir('frontend') {  // Change directory to 'frontend'
-                    sh 'npm install'
-                    sh '''
-                        unset CI
-                        npm run build
-                    '''
-                }
-            }
-        }
-
         stage('Deploy Frontend') {
             steps {
-                sh 'cp -r frontend/build/* /home/tom/web/dev.gruevy.com/'
+                sh 'cp -r frontend/* /home/ec2-user/ParkEZ/dev/frontend/'
             }
         }
 
         stage('Deploy Backend') {
             steps {
-                sh 'cp -r backend/* /home/tom/web/backend_dev/'
+                sh 'cp -r backend/* /home/ec2-user/ParkEZ/dev/backend/'
             }
         }
 
-        stage('Restart Service') { 
-            steps {
-                sh 'sudo systemctl restart devback.service'
-            }
-        }
     }
 
     post {
