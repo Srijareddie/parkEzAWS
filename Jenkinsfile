@@ -4,10 +4,10 @@ pipeline {
     steps {
         script {
             def remote = [:]
-            remote.name = 'your-ec2-instance'
-            remote.host = 'your-ec2-instance-ip'
+            remote.name = 'ec2-user'
+            remote.host = '3.149.252.158'
             remote.user = 'ec2-user'
-            remote.identityFile = credentials('your-jenkins-ssh-credentials') 
+            remote.identityFile = credentials('ec2-user') 
             remote.allowAnyHosts = true
 
             sshCommand remote: remote, command: '''
