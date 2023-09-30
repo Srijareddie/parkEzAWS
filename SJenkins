@@ -1,7 +1,7 @@
 node {
     stage('SSH to EC2') {
-        sshagent(['your-ssh-credentials-id']) {
-            sh 'ssh -v -i /path/to/jenkins_key ec2-user@your-ec2-instance-ip "cd /home/ec2-user/ParkEZ/dev/frontend/ && your_command"'
+        sshagent(['ec2-user']) {
+            sh 'ssh -v -i /path/to/jenkins_key ec2-user@3.149.252.158 "cd /home/ec2-user/"'
         }
     }
 }
