@@ -1,21 +1,29 @@
 pipeline {
-    agent any 
+    agent any  // This will use any available agent
 
-    stages{
-        stage('SSH Install') {
-                def remote = [:]
-                remote.name = 'ec2-user'
-                remote.host = '3.149.252.158'
-                remote.user = 'ec2-user'
-                remote.identityFile = credentials('ec2-user') 
-                remote.allowAnyHosts = true
+    tools {
+        nodejs 'node'  // 'node' is the name you gave to the Node.js installation in Jenkins
+    }
 
-                sshCommand remote: remote, command: '''
-                    cd /home/ec2-user/ParkEZ/dev/
-                    git pull origin dev 
-                '''
+    stages {
+        stage('Checkout') {
+            steps {
+                checkout scm
             }
         }
+        stage('Deploy Frontend') {
+            steps {
+               sh 'cp -r frontend/* /home/ec2-user/ParkEZ/dev/frontend/'
+            }
+        }
+
+        stage('Deploy Backend') {
+            steps {
+                sh 'cp -r backend/* /home/ec2-user/ParkEZ/dev/backend/'
+            }
+        }
+
+    }
 
     post {
         success {
