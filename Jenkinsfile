@@ -13,7 +13,7 @@ pipeline {
         }
         stage('Deploy Frontend') {
             steps {
-                sh 'cp -r frontend/* /home/ec2-user/ParkEZ/dev/frontend/'
+                sh '/usr/bin/ssh ec2-user@ec2-user "cd /home/ec2-user/ParkEZ/dev/frontend/"'
             }
         }
 
